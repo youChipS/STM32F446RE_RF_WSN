@@ -41,6 +41,7 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+// UART_HandleTypeDef huart4;
 UART_HandleTypeDef huart2;
 
 osThreadId rfTaskHandle;
@@ -168,7 +169,6 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 }
-
 /**
   * @brief USART2 Initialization Function
   * @param None
@@ -223,7 +223,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
 }
 
 /* USER CODE BEGIN 4 */
@@ -239,14 +238,12 @@ static void MX_GPIO_Init(void)
 /* USER CODE END Header_StartRfTask */
 void StartRfTask(void const * argument)
 {
-  //uint8_t aTxStartMessage[] = "\r\n****UART-Hyperterminal communication based on IT ****\r\nEnter 10 characters using keyboard :\r\n";
-  uint8_t aTxStartMessage[] = "Hello World F446!\r\n";
-
+  uint8_t aTxHuart2Message[] = "Hello huart2!\r\n";
   for(;;)
   {
     HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5); // toggle onboard LED
-    HAL_UART_Transmit(&huart2, aTxStartMessage, sizeof(aTxStartMessage), HAL_MAX_DELAY);
-    osDelay(5000);
+    HAL_UART_Transmit(&huart2, aTxHuart2Message, sizeof(aTxHuart2Message), HAL_MAX_DELAY);
+    osDelay(1000);
   }
 }
 
