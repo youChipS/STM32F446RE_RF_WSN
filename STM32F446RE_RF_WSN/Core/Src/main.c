@@ -20,7 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
-
+#include "string.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -47,6 +47,8 @@ UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 
 osThreadId defaultTaskHandle;
+osThreadId huart1TaskHandle;
+osThreadId huart2TaskHandle;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -58,6 +60,8 @@ static void MX_I2C1_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART2_UART_Init(void);
 void StartDefaultTask(void const * argument);
+void StartHuart1RxTask(void const * argument);
+void StartHuart2RxTask(void const * argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -121,8 +125,14 @@ int main(void)
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
+  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+
+  osThreadDef(uart1Task, StartHuart1RxTask, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE);
+  huart1TaskHandle = osThreadCreate(osThread(uart1Task), NULL);
+
+  osThreadDef(uart2Task, StartHuart2RxTask, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE);
+  huart2TaskHandle = osThreadCreate(osThread(uart2Task), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -232,7 +242,7 @@ static void MX_USART1_UART_Init(void)
 
   /* USER CODE END USART1_Init 1 */
   huart1.Instance = USART1;
-  huart1.Init.BaudRate = 115200;
+  huart1.Init.BaudRate = 9600;
   huart1.Init.WordLength = UART_WORDLENGTH_8B;
   huart1.Init.StopBits = UART_STOPBITS_1;
   huart1.Init.Parity = UART_PARITY_NONE;
@@ -265,7 +275,7 @@ static void MX_USART2_UART_Init(void)
 
   /* USER CODE END USART2_Init 1 */
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
+  huart2.Init.BaudRate = 9600;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
@@ -319,16 +329,55 @@ static void MX_GPIO_Init(void)
   */
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void const * argument)
-{
+{ 
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
   for(;;)
   {
     HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5); // toggle onboard LED
-    HAL_UART_Transmit(&huart2, "Hello huart2!\r\n", sizeof("Hello huart2!\r\n"), HAL_MAX_DELAY);
-    HAL_UART_Transmit(&huart1, "Hello huart1!\r\n", sizeof("Hello huart1!\r\n"), HAL_MAX_DELAY);
-    HAL_I2C_Master_Transmit(&hi2c1, 0xAA, (uint8_t *)"1234", 4, 100); // write 1234 to i2c address 0x5A
     osDelay(1000);
+  }
+  /* USER CODE END 5 */
+}
+
+/* USER CODE END Header_StartHuart1RxTask */
+void StartHuart1RxTask(void const * argument)
+{
+  uint8_t uart1RxByte;
+  
+  /* USER CODE BEGIN 5 */
+  /* Infinite loop */
+  for(;;)
+  {
+    memset(&uart1RxByte, 0, sizeof(uart1RxByte));
+
+    // echo haurt1 rx to haurt2 tx
+    if(HAL_UART_Receive(&huart1, &uart1RxByte, sizeof(uart1RxByte), 0) == HAL_OK)
+    {
+      HAL_UART_Transmit(&huart2, &uart1RxByte, sizeof(uart1RxByte), HAL_MAX_DELAY);
+    }
+    osDelay(1);
+  }
+  /* USER CODE END 5 */
+}
+
+/* USER CODE END Header_StartHuart2RxTask */
+void StartHuart2RxTask(void const * argument)
+{
+  uint8_t uart2RxByte;
+  
+  /* USER CODE BEGIN 5 */
+  /* Infinite loop */
+  for(;;)
+  {
+    memset(&uart2RxByte, 0, sizeof(uart2RxByte));
+
+    // echo haurt2 rx to haurt1 tx
+    if(HAL_UART_Receive(&huart2, &uart2RxByte, sizeof(uart2RxByte), 0) == HAL_OK)
+    {
+      HAL_UART_Transmit(&huart1, &uart2RxByte, sizeof(uart2RxByte), HAL_MAX_DELAY);
+    }
+    osDelay(1);
   }
   /* USER CODE END 5 */
 }
@@ -345,7 +394,7 @@ void Error_Handler(void)
   while (1)
   {
   }
-  /* USER CODE END Error_Handler_Debug */
+  /* USER CODE END Error_Hantestdler_Debug */
 }
 
 #ifdef  USE_FULL_ASSERT
