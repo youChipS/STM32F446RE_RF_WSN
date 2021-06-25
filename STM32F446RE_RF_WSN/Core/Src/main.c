@@ -334,6 +334,7 @@ void StartDefaultTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
+    HAL_UART_Transmit(&huart2, "Hello World!\r\n", sizeof("Hello World!\r\n"), HAL_MAX_DELAY);
     HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5); // toggle onboard LED
     osDelay(1000);
   }
