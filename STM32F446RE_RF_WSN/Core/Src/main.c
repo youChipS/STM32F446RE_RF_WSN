@@ -352,7 +352,7 @@ void StartHuart1RxTask(void const * argument)
   {
     memset(&uart1RxByte, 0, sizeof(uart1RxByte));
 
-    // echo haurt1 rx to haurt2 tx
+    // echo haurt1 (xbee) rx to haurt2 tx
     if(HAL_UART_Receive(&huart1, &uart1RxByte, sizeof(uart1RxByte), 0) == HAL_OK)
     {
       HAL_UART_Transmit(&huart2, &uart1RxByte, sizeof(uart1RxByte), HAL_MAX_DELAY);
@@ -373,7 +373,7 @@ void StartHuart2RxTask(void const * argument)
   {
     memset(&uart2RxByte, 0, sizeof(uart2RxByte));
 
-    // echo haurt2 rx to haurt1 tx
+    // echo haurt2 (xbee) rx to haurt1 tx
     if(HAL_UART_Receive(&huart2, &uart2RxByte, sizeof(uart2RxByte), 0) == HAL_OK)
     {
       HAL_UART_Transmit(&huart1, &uart2RxByte, sizeof(uart2RxByte), HAL_MAX_DELAY);

@@ -41,7 +41,7 @@ void loop()
   }
   if (XBee.available())
   { // If data comes in from XBee, send it out to serial monitor
-    Serial.write(XBee.read());
+    Serial.print(XBee.read(), DEC);
+    Serial.println();
   }
 }
-

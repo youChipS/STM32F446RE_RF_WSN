@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccmul91N.s 			page 1
+ARM GAS  /tmp/ccTBhSsj.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
   30:Core/Src/main.c **** /* USER CODE BEGIN PTD */
   31:Core/Src/main.c **** 
   32:Core/Src/main.c **** /* USER CODE END PTD */
-ARM GAS  /tmp/ccmul91N.s 			page 2
+ARM GAS  /tmp/ccTBhSsj.s 			page 2
 
 
   33:Core/Src/main.c **** 
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
   87:Core/Src/main.c ****   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   88:Core/Src/main.c ****   HAL_Init();
   89:Core/Src/main.c **** 
-ARM GAS  /tmp/ccmul91N.s 			page 3
+ARM GAS  /tmp/ccTBhSsj.s 			page 3
 
 
   90:Core/Src/main.c ****   /* USER CODE BEGIN Init */
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  144:Core/Src/main.c ****   /* We should never get here as control is now taken by the scheduler */
  145:Core/Src/main.c ****   /* Infinite loop */
  146:Core/Src/main.c ****   /* USER CODE BEGIN WHILE */
-ARM GAS  /tmp/ccmul91N.s 			page 4
+ARM GAS  /tmp/ccTBhSsj.s 			page 4
 
 
  147:Core/Src/main.c ****   while (1)
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  201:Core/Src/main.c **** {
  202:Core/Src/main.c **** 
  203:Core/Src/main.c ****   /* USER CODE BEGIN I2C1_Init 0 */
-ARM GAS  /tmp/ccmul91N.s 			page 5
+ARM GAS  /tmp/ccTBhSsj.s 			page 5
 
 
  204:Core/Src/main.c **** 
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  258:Core/Src/main.c ****   /* USER CODE END USART1_Init 2 */
  259:Core/Src/main.c **** 
  260:Core/Src/main.c **** }
-ARM GAS  /tmp/ccmul91N.s 			page 6
+ARM GAS  /tmp/ccTBhSsj.s 			page 6
 
 
  261:Core/Src/main.c **** 
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  302:Core/Src/main.c ****   GPIO_InitTypeDef GPIO_InitStruct = {0};
   40              		.loc 1 302 0
   41 0004 0024     		movs	r4, #0
-ARM GAS  /tmp/ccmul91N.s 			page 7
+ARM GAS  /tmp/ccTBhSsj.s 			page 7
 
 
   42 0006 0394     		str	r4, [sp, #12]
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
   84 004e 0594     		str	r4, [sp, #20]
  315:Core/Src/main.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   85              		.loc 1 315 0
-ARM GAS  /tmp/ccmul91N.s 			page 8
+ARM GAS  /tmp/ccTBhSsj.s 			page 8
 
 
   86 0050 0694     		str	r4, [sp, #24]
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  125              		.cfi_offset 3, -8
  126              		.cfi_offset 14, -4
  127              	.LVL3:
-ARM GAS  /tmp/ccmul91N.s 			page 9
+ARM GAS  /tmp/ccTBhSsj.s 			page 9
 
 
  128              	.L6:
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  170              	.LVL7:
  171 0000 00B5     		push	{lr}
  172              	.LCFI4:
-ARM GAS  /tmp/ccmul91N.s 			page 10
+ARM GAS  /tmp/ccTBhSsj.s 			page 10
 
 
  173              		.cfi_def_cfa_offset 4
@@ -557,7 +557,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  352:Core/Src/main.c ****   {
  353:Core/Src/main.c ****     memset(&uart1RxByte, 0, sizeof(uart1RxByte));
  354:Core/Src/main.c **** 
- 355:Core/Src/main.c ****     // echo haurt1 rx to haurt2 tx
+ 355:Core/Src/main.c ****     // echo haurt1 (xbee) rx to haurt2 tx
  356:Core/Src/main.c ****     if(HAL_UART_Receive(&huart1, &uart1RxByte, sizeof(uart1RxByte), 0) == HAL_OK)
  357:Core/Src/main.c ****     {
  358:Core/Src/main.c ****       HAL_UART_Transmit(&huart2, &uart1RxByte, sizeof(uart1RxByte), HAL_MAX_DELAY);
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  210              		.cfi_endproc
  211              	.LFE142:
  213              		.section	.text.StartHuart2RxTask,"ax",%progbits
-ARM GAS  /tmp/ccmul91N.s 			page 11
+ARM GAS  /tmp/ccTBhSsj.s 			page 11
 
 
  214              		.align	1
@@ -640,7 +640,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  373:Core/Src/main.c ****   {
  374:Core/Src/main.c ****     memset(&uart2RxByte, 0, sizeof(uart2RxByte));
  375:Core/Src/main.c **** 
- 376:Core/Src/main.c ****     // echo haurt2 rx to haurt1 tx
+ 376:Core/Src/main.c ****     // echo haurt2 (xbee) rx to haurt1 tx
  377:Core/Src/main.c ****     if(HAL_UART_Receive(&huart2, &uart2RxByte, sizeof(uart2RxByte), 0) == HAL_OK)
  378:Core/Src/main.c ****     {
  379:Core/Src/main.c ****       HAL_UART_Transmit(&huart1, &uart2RxByte, sizeof(uart2RxByte), HAL_MAX_DELAY);
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  247 0010 01F8013D 		strb	r3, [r1, #-1]!
  377:Core/Src/main.c ****     {
  248              		.loc 1 377 0
-ARM GAS  /tmp/ccmul91N.s 			page 12
+ARM GAS  /tmp/ccTBhSsj.s 			page 12
 
 
  249 0014 0122     		movs	r2, #1
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
    5:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @date     09. April 2018
    6:Drivers/CMSIS/Include/cmsis_gcc.h ****  ******************************************************************************/
    7:Drivers/CMSIS/Include/cmsis_gcc.h **** /*
-ARM GAS  /tmp/ccmul91N.s 			page 13
+ARM GAS  /tmp/ccTBhSsj.s 			page 13
 
 
    8:Drivers/CMSIS/Include/cmsis_gcc.h ****  * Copyright (c) 2009-2018 Arm Limited. All rights reserved.
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
   62:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED                               __attribute__((packed, aligned(1)))
   63:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
   64:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED_STRUCT
-ARM GAS  /tmp/ccmul91N.s 			page 14
+ARM GAS  /tmp/ccTBhSsj.s 			page 14
 
 
   65:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED_STRUCT                        struct __attribute__((packed, aligned(1)))
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  119:Drivers/CMSIS/Include/cmsis_gcc.h **** /** \ingroup  CMSIS_Core_FunctionInterface
  120:Drivers/CMSIS/Include/cmsis_gcc.h ****     \defgroup CMSIS_Core_RegAccFunctions CMSIS Core Register Access Functions
  121:Drivers/CMSIS/Include/cmsis_gcc.h ****   @{
-ARM GAS  /tmp/ccmul91N.s 			page 15
+ARM GAS  /tmp/ccTBhSsj.s 			page 15
 
 
  122:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  323 0002 0A48     		ldr	r0, .L28
  324 0004 0A4B     		ldr	r3, .L28+4
  325 0006 0360     		str	r3, [r0]
-ARM GAS  /tmp/ccmul91N.s 			page 16
+ARM GAS  /tmp/ccTBhSsj.s 			page 16
 
 
  211:Core/Src/main.c ****   hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  235:Core/Src/main.c **** 
  372              		.loc 1 235 0
  373              		.cfi_startproc
-ARM GAS  /tmp/ccmul91N.s 			page 17
+ARM GAS  /tmp/ccTBhSsj.s 			page 17
 
 
  374              		@ args = 0, pretend = 0, frame = 0
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  419              		.section	.text.MX_USART2_UART_Init,"ax",%progbits
  420              		.align	1
  421              		.syntax unified
-ARM GAS  /tmp/ccmul91N.s 			page 18
+ARM GAS  /tmp/ccTBhSsj.s 			page 18
 
 
  422              		.thumb
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  466              	.LVL22:
  467              	.L41:
  468 002a 00BF     		.align	2
-ARM GAS  /tmp/ccmul91N.s 			page 19
+ARM GAS  /tmp/ccTBhSsj.s 			page 19
 
 
  469              	.L40:
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  521              	.LBB9:
  168:Core/Src/main.c ****   /** Initializes the RCC Oscillators according to the specified parameters
  522              		.loc 1 168 0
-ARM GAS  /tmp/ccmul91N.s 			page 20
+ARM GAS  /tmp/ccTBhSsj.s 			page 20
 
 
  523 0030 0193     		str	r3, [sp, #4]
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  566 0074 20B9     		cbnz	r0, .L47
  193:Core/Src/main.c **** 
  567              		.loc 1 193 0
-ARM GAS  /tmp/ccmul91N.s 			page 21
+ARM GAS  /tmp/ccTBhSsj.s 			page 21
 
 
  568 0076 15B0     		add	sp, sp, #84
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  619              	.LVL29:
  102:Core/Src/main.c ****   MX_I2C1_Init();
  620              		.loc 1 102 0
-ARM GAS  /tmp/ccmul91N.s 			page 22
+ARM GAS  /tmp/ccTBhSsj.s 			page 22
 
 
  621 000c FFF7FEFF 		bl	MX_GPIO_Init
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  667 0064 85E80700 		stm	r5, {r0, r1, r2}
  135:Core/Src/main.c **** 
  668              		.loc 1 135 0
-ARM GAS  /tmp/ccmul91N.s 			page 23
+ARM GAS  /tmp/ccTBhSsj.s 			page 23
 
 
  669 0068 0021     		movs	r1, #0
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  723 0048 80000000 		.word	128
  724 004c 00000000 		.word	0
  725 0050 00000000 		.word	0
-ARM GAS  /tmp/ccmul91N.s 			page 24
+ARM GAS  /tmp/ccTBhSsj.s 			page 24
 
 
  726              		.section	.rodata.StartDefaultTask.str1.4,"aMS",%progbits,1
@@ -1427,49 +1427,49 @@ ARM GAS  /tmp/ccmul91N.s 			page 1
  760              		.file 21 "/usr/include/newlib/sys/_types.h"
  761              		.file 22 "/usr/lib/gcc/arm-none-eabi/6.3.1/include/stddef.h"
  762              		.file 23 "/usr/include/newlib/sys/reent.h"
-ARM GAS  /tmp/ccmul91N.s 			page 25
+ARM GAS  /tmp/ccTBhSsj.s 			page 25
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 main.c
-     /tmp/ccmul91N.s:18     .text.MX_GPIO_Init:0000000000000000 $t
-     /tmp/ccmul91N.s:24     .text.MX_GPIO_Init:0000000000000000 MX_GPIO_Init
-     /tmp/ccmul91N.s:101    .text.MX_GPIO_Init:0000000000000060 $d
-     /tmp/ccmul91N.s:107    .text.StartDefaultTask:0000000000000000 $t
-     /tmp/ccmul91N.s:114    .text.StartDefaultTask:0000000000000000 StartDefaultTask
-     /tmp/ccmul91N.s:149    .text.StartDefaultTask:0000000000000024 $d
+     /tmp/ccTBhSsj.s:18     .text.MX_GPIO_Init:0000000000000000 $t
+     /tmp/ccTBhSsj.s:24     .text.MX_GPIO_Init:0000000000000000 MX_GPIO_Init
+     /tmp/ccTBhSsj.s:101    .text.MX_GPIO_Init:0000000000000060 $d
+     /tmp/ccTBhSsj.s:107    .text.StartDefaultTask:0000000000000000 $t
+     /tmp/ccTBhSsj.s:114    .text.StartDefaultTask:0000000000000000 StartDefaultTask
+     /tmp/ccTBhSsj.s:149    .text.StartDefaultTask:0000000000000024 $d
                             *COM*:0000000000000044 huart2
-     /tmp/ccmul91N.s:156    .text.StartHuart1RxTask:0000000000000000 $t
-     /tmp/ccmul91N.s:163    .text.StartHuart1RxTask:0000000000000000 StartHuart1RxTask
-     /tmp/ccmul91N.s:208    .text.StartHuart1RxTask:0000000000000034 $d
+     /tmp/ccTBhSsj.s:156    .text.StartHuart1RxTask:0000000000000000 $t
+     /tmp/ccTBhSsj.s:163    .text.StartHuart1RxTask:0000000000000000 StartHuart1RxTask
+     /tmp/ccTBhSsj.s:208    .text.StartHuart1RxTask:0000000000000034 $d
                             *COM*:0000000000000044 huart1
-     /tmp/ccmul91N.s:214    .text.StartHuart2RxTask:0000000000000000 $t
-     /tmp/ccmul91N.s:221    .text.StartHuart2RxTask:0000000000000000 StartHuart2RxTask
-     /tmp/ccmul91N.s:266    .text.StartHuart2RxTask:0000000000000034 $d
-     /tmp/ccmul91N.s:272    .text.Error_Handler:0000000000000000 $t
-     /tmp/ccmul91N.s:279    .text.Error_Handler:0000000000000000 Error_Handler
-     /tmp/ccmul91N.s:305    .text.MX_I2C1_Init:0000000000000000 $t
-     /tmp/ccmul91N.s:311    .text.MX_I2C1_Init:0000000000000000 MX_I2C1_Init
-     /tmp/ccmul91N.s:357    .text.MX_I2C1_Init:000000000000002c $d
+     /tmp/ccTBhSsj.s:214    .text.StartHuart2RxTask:0000000000000000 $t
+     /tmp/ccTBhSsj.s:221    .text.StartHuart2RxTask:0000000000000000 StartHuart2RxTask
+     /tmp/ccTBhSsj.s:266    .text.StartHuart2RxTask:0000000000000034 $d
+     /tmp/ccTBhSsj.s:272    .text.Error_Handler:0000000000000000 $t
+     /tmp/ccTBhSsj.s:279    .text.Error_Handler:0000000000000000 Error_Handler
+     /tmp/ccTBhSsj.s:305    .text.MX_I2C1_Init:0000000000000000 $t
+     /tmp/ccTBhSsj.s:311    .text.MX_I2C1_Init:0000000000000000 MX_I2C1_Init
+     /tmp/ccTBhSsj.s:357    .text.MX_I2C1_Init:000000000000002c $d
                             *COM*:0000000000000054 hi2c1
-     /tmp/ccmul91N.s:364    .text.MX_USART1_UART_Init:0000000000000000 $t
-     /tmp/ccmul91N.s:370    .text.MX_USART1_UART_Init:0000000000000000 MX_USART1_UART_Init
-     /tmp/ccmul91N.s:414    .text.MX_USART1_UART_Init:000000000000002c $d
-     /tmp/ccmul91N.s:420    .text.MX_USART2_UART_Init:0000000000000000 $t
-     /tmp/ccmul91N.s:426    .text.MX_USART2_UART_Init:0000000000000000 MX_USART2_UART_Init
-     /tmp/ccmul91N.s:470    .text.MX_USART2_UART_Init:000000000000002c $d
-     /tmp/ccmul91N.s:476    .text.SystemClock_Config:0000000000000000 $t
-     /tmp/ccmul91N.s:483    .text.SystemClock_Config:0000000000000000 SystemClock_Config
-     /tmp/ccmul91N.s:587    .text.SystemClock_Config:0000000000000084 $d
-     /tmp/ccmul91N.s:593    .text.main:0000000000000000 $t
-     /tmp/ccmul91N.s:600    .text.main:0000000000000000 main
-     /tmp/ccmul91N.s:683    .text.main:000000000000007c $d
+     /tmp/ccTBhSsj.s:364    .text.MX_USART1_UART_Init:0000000000000000 $t
+     /tmp/ccTBhSsj.s:370    .text.MX_USART1_UART_Init:0000000000000000 MX_USART1_UART_Init
+     /tmp/ccTBhSsj.s:414    .text.MX_USART1_UART_Init:000000000000002c $d
+     /tmp/ccTBhSsj.s:420    .text.MX_USART2_UART_Init:0000000000000000 $t
+     /tmp/ccTBhSsj.s:426    .text.MX_USART2_UART_Init:0000000000000000 MX_USART2_UART_Init
+     /tmp/ccTBhSsj.s:470    .text.MX_USART2_UART_Init:000000000000002c $d
+     /tmp/ccTBhSsj.s:476    .text.SystemClock_Config:0000000000000000 $t
+     /tmp/ccTBhSsj.s:483    .text.SystemClock_Config:0000000000000000 SystemClock_Config
+     /tmp/ccTBhSsj.s:587    .text.SystemClock_Config:0000000000000084 $d
+     /tmp/ccTBhSsj.s:593    .text.main:0000000000000000 $t
+     /tmp/ccTBhSsj.s:600    .text.main:0000000000000000 main
+     /tmp/ccTBhSsj.s:683    .text.main:000000000000007c $d
                             *COM*:0000000000000004 defaultTaskHandle
                             *COM*:0000000000000004 huart1TaskHandle
                             *COM*:0000000000000004 huart2TaskHandle
-     /tmp/ccmul91N.s:697    .rodata:0000000000000000 $d
-     /tmp/ccmul91N.s:727    .rodata.StartDefaultTask.str1.4:0000000000000000 $d
-     /tmp/ccmul91N.s:731    .rodata.str1.4:0000000000000000 $d
+     /tmp/ccTBhSsj.s:697    .rodata:0000000000000000 $d
+     /tmp/ccTBhSsj.s:727    .rodata.StartDefaultTask.str1.4:0000000000000000 $d
+     /tmp/ccTBhSsj.s:731    .rodata.str1.4:0000000000000000 $d
                      .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
@@ -1487,6 +1487,6 @@ HAL_RCC_ClockConfig
 HAL_Init
 osThreadCreate
 osKernelStart
-ARM GAS  /tmp/ccmul91N.s 			page 26
+ARM GAS  /tmp/ccTBhSsj.s 			page 26
 
 

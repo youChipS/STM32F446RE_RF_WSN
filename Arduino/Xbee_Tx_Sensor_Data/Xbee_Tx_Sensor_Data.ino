@@ -11,8 +11,11 @@ Hardware Hookup:
   the XBee's DOUT and DIN pins to Arduino pins 2 and 3.
 
 *****************************************************************/
+#include "SparkFun_SGP40_Arduino_Library.h" // Click here to get the library: http://librarymanager/All#SparkFun_SGP40_Arduino_Library
+#include <Adafruit_AHTX0.h>
 // We'll use SoftwareSerial to communicate with the XBee:
 #include <SoftwareSerial.h>
+#include <Wire.h>
 
 //For Atmega328P's
 // XBee's DOUT (TX) is connected to pin 2 (Arduino's Software RX)
@@ -24,6 +27,10 @@ SoftwareSerial XBee(2, 3); // RX, TX
 // XBee's DIN (RX) is connected to pin 11 (Arduino's Software TX)
 //SoftwareSerial XBee(10, 11); // RX, TX
 
+
+SGP40 mySensor; //create an object of the SGP40 class
+Adafruit_AHTX0 aht;
+
 void setup()
 {
   // Set up both ports at 9600 baud. This value is most important
@@ -31,19 +38,43 @@ void setup()
   // setting of your XBee.
   XBee.begin(9600);
   Serial.begin(9600);
+  Serial.println("Xbee Tx Sensor Data");
+  
+  Wire.begin();
 
-  Serial.write("Xbee Tx Sensor Data\r\n");
+  //mySensor.enableDebugging(); // Uncomment this line to print useful debug messages to Serial
+
+  //Initialize sensor
+  if (mySensor.begin() == false)
+  {
+    Serial.println(F("SGP40 not detected. Check connections. Freezing..."));
+    while (1); // Do nothing more
+  }
+  Serial.println("SGP40 found");
+    
+  if (! aht.begin()) 
+  {
+    Serial.println("Could not find AHT? Check wiring");
+    while (1); // Do nothing more
+  }
+  Serial.println("AHT10 or AHT20 found");
 }
 
 void loop()
 {
- 
-  if (Serial.available())
-  { // If data comes in from serial monitor, send it out to XBee
-    XBee.write(Serial.read());
-  }
-  if (XBee.available())
-  { // If data comes in from XBee, send it out to serial monitor
-    Serial.write(XBee.read());
-  }
+  sensors_event_t humidity, temp;
+  aht.getEvent(&humidity, &temp);// populate temp and humidity objects with fresh data
+
+  Serial.print(temp.temperature); // send temperature through xbee
+  Serial.println();
+  Serial.print(humidity.relative_humidity); // send humidity through xbee
+  Serial.println();
+  Serial.print(mySensor.getVOCindex()); //Get the VOC Index using the default RH (50%) and T (25C)
+  Serial.println();
+  
+  XBee.write(temp.temperature); // send temperature through xbee
+  XBee.write(humidity.relative_humidity); // send humidity through xbee
+  XBee.write(mySensor.getVOCindex()); //Get the VOC Index using the default RH (50%) and T (25C)
+  
+  delay(1000); //Wait 1 second - the Sensirion VOC algorithm expects a sample rate of 1Hz
 }
