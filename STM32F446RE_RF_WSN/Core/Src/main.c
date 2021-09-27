@@ -1,4 +1,5 @@
 /* USER CODE BEGIN Header */
+
 /**
   ******************************************************************************
   * @file           : main.c
@@ -68,7 +69,23 @@ void StartHuart2RxTask(void const * argument);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
+
+#define MAX_RX_BYTES 50
+
 /* USER CODE BEGIN 0 */
+    enum RX_STATES {
+      INIT_RX = 0,
+      GET_RX_DATA = 1,
+    };
+    enum RX_STATES rxState = INIT_RX;
+
+  typedef struct {
+    // data fields
+    uint8_t temp[2];
+    //uint8_t humidity[2];
+    //uint8_t vocIndex[2];
+  } RX_DATA;
+  RX_DATA *rx_data;
 
 /* USER CODE END 0 */
 
@@ -131,8 +148,8 @@ int main(void)
   osThreadDef(uart1Task, StartHuart1RxTask, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE);
   huart1TaskHandle = osThreadCreate(osThread(uart1Task), NULL);
 
-  osThreadDef(uart2Task, StartHuart2RxTask, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE);
-  huart2TaskHandle = osThreadCreate(osThread(uart2Task), NULL);
+  // osThreadDef(uart2Task, StartHuart2RxTask, osPriorityRealtime, 0, configMINIMAL_STACK_SIZE);
+  // huart2TaskHandle = osThreadCreate(osThread(uart2Task), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -332,9 +349,10 @@ void StartDefaultTask(void const * argument)
 { 
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
+  
   for(;;)
   {
-    HAL_UART_Transmit(&huart2, "Hello World!\r\n", sizeof("Hello World!\r\n"), HAL_MAX_DELAY);
+    //HAL_UART_Transmit(&huart2, "Hello World!\r\n", sizeof("Hello World!\r\n"), HAL_MAX_DELAY);
     HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5); // toggle onboard LED
     osDelay(1000);
   }
@@ -352,36 +370,86 @@ void StartHuart1RxTask(void const * argument)
   {
     memset(&uart1RxByte, 0, sizeof(uart1RxByte));
 
-    // echo haurt1 (xbee) rx to haurt2 tx
-    if(HAL_UART_Receive(&huart1, &uart1RxByte, sizeof(uart1RxByte), 0) == HAL_OK)
+    switch(rxState)
     {
-      HAL_UART_Transmit(&huart2, &uart1RxByte, sizeof(uart1RxByte), HAL_MAX_DELAY);
+      case INIT_RX:
+        if(HAL_UART_Receive(&huart1, &uart1RxByte, sizeof(uart1RxByte), 0) == HAL_OK)
+        {
+          //HAL_UART_Transmit(&huart2, &uart1RxByte, sizeof(uart1RxByte), HAL_MAX_DELAY);
+          if(uart1RxByte == 'S')
+          {
+            rxState = GET_RX_DATA;
+          }
+          else
+          {
+            rxState = INIT_RX;
+          }
+        }
+      break;
+
+      case GET_RX_DATA: ; // empty statement, labels can only be followed by statements and a declaration is not a statement
+        uint8_t rx_size = 0;
+        // get the rx_size
+        if(HAL_UART_Receive(&huart1, &uart1RxByte, sizeof(uart1RxByte), 0) == HAL_OK)
+        {
+          HAL_UART_Transmit(&huart2, &uart1RxByte, sizeof(uart1RxByte), HAL_MAX_DELAY);
+          rx_size = uart1RxByte; // how many bytes we expect
+        }
+        else
+        {
+          break;
+        }
+        
+        uint8_t rx_data_raw[MAX_RX_BYTES] = {0};
+        uint8_t index = 0;
+
+        while(rx_size > 0)
+        {
+          // get temperature data
+          if(HAL_UART_Receive(&huart1, &uart1RxByte, sizeof(uart1RxByte), 0) == HAL_OK)
+          {
+            // todo convert uart data to integer data for temperature
+            *((uint8_t*)rx_data_raw+index) = uart1RxByte; // store temperature byte by byte
+            HAL_UART_Transmit(&huart2, &uart1RxByte, sizeof(uart1RxByte), HAL_MAX_DELAY);
+          }
+
+          index++;
+          rx_size--;
+          osDelay(1);
+        }
+        rxState = INIT_RX; // done with rx of temp, restart reception
+        // cast the rx data
+        RX_DATA *rx_data = (RX_DATA*)&rx_data_raw;
+
+        break;                  
+      default:
+      break;
+
     }
-    osDelay(1);
   }
   /* USER CODE END 5 */
 }
 
 /* USER CODE END Header_StartHuart2RxTask */
-void StartHuart2RxTask(void const * argument)
-{
-  uint8_t uart2RxByte;
+// void StartHuart2RxTask(void const * argument)
+// {
+//   uint8_t uart2RxByte;
   
-  /* USER CODE BEGIN 5 */
-  /* Infinite loop */
-  for(;;)
-  {
-    memset(&uart2RxByte, 0, sizeof(uart2RxByte));
+//   /* USER CODE BEGIN 5 */
+//   /* Infinite loop */
+//   for(;;)
+//   {
+//     memset(&uart2RxByte, 0, sizeof(uart2RxByte));
 
-    // echo haurt2 (xbee) rx to haurt1 tx
-    if(HAL_UART_Receive(&huart2, &uart2RxByte, sizeof(uart2RxByte), 0) == HAL_OK)
-    {
-      HAL_UART_Transmit(&huart1, &uart2RxByte, sizeof(uart2RxByte), HAL_MAX_DELAY);
-    }
-    osDelay(1);
-  }
-  /* USER CODE END 5 */
-}
+//     // echo haurt2 (xbee) rx to haurt1 tx
+//     if(HAL_UART_Receive(&huart2, &uart2RxByte, sizeof(uart2RxByte), 0) == HAL_OK)
+//     {
+//       HAL_UART_Transmit(&huart1, &uart2RxByte, sizeof(uart2RxByte), HAL_MAX_DELAY);
+//     }
+//     osDelay(1);
+//   }
+//   /* USER CODE END 5 */
+// }
 
 /**
   * @brief  This function is executed in case of error occurrence.

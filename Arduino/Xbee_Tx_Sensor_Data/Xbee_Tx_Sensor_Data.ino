@@ -25,11 +25,22 @@ SoftwareSerial XBee(2, 3); // RX, TX
 //For Atmega2560, ATmega32U4, etc.
 // XBee's DOUT (TX) is connected to pin 10 (Arduino's Software RX)
 // XBee's DIN (RX) is connected to pin 11 (Arduino's Software TX)
-//SoftwareSerial XBee(10, 11); // RX, TX
+// SoftwareSerial XBee(10, 11); // RX, TX
 
 
-SGP40 mySensor; //create an object of the SGP40 class
+SGP40 mySensor; // create an object of the SGP40 class
 Adafruit_AHTX0 aht;
+
+typedef struct {
+// header and data size
+  uint8_t header;
+  uint8_t dataSize;
+// data fields
+  uint8_t temp[2];
+  //uint8_t humidity[2];
+  //uint8_t vocIndex[2];
+} packet;
+packet rf_data;
 
 void setup()
 {
@@ -65,16 +76,34 @@ void loop()
   sensors_event_t humidity, temp;
   aht.getEvent(&humidity, &temp);// populate temp and humidity objects with fresh data
 
-  Serial.print(temp.temperature); // send temperature through xbee
-  Serial.println();
-  Serial.print(humidity.relative_humidity); // send humidity through xbee
-  Serial.println();
-  Serial.print(mySensor.getVOCindex()); //Get the VOC Index using the default RH (50%) and T (25C)
-  Serial.println();
+  unsigned int count = 0;
+
+    // header and data size must be set appropriately for packet type
+    rf_data.header = 'S';
+    rf_data.dataSize = 12;
+
+    //unsigned int vocIndex = mySensor.getVOCindex();
+    memcpy(rf_data.temp, &temp.temperature, sizeof(rf_data.temp));
+    //memcpy(rf_data.humidity, &humidity.relative_humidity, sizeof(rf_data.humidity));
+    //memcpy(rf_data.vocIndex, &vocIndex, sizeof(rf_data.vocIndex));
+    
+    sendRfData(&rf_data);
+    
+    Serial.println();
+    count++;
+    
+    delay(1000); // Wait 1 second
+}
+
+
+void sendRfData(packet *data)
+{
+  uint16_t count = 0;
   
-  XBee.write(temp.temperature); // send temperature through xbee
-  XBee.write(humidity.relative_humidity); // send humidity through xbee
-  XBee.write(mySensor.getVOCindex()); //Get the VOC Index using the default RH (50%) and T (25C)
-  
-  delay(1000); //Wait 1 second - the Sensirion VOC algorithm expects a sample rate of 1Hz
+  while(count < sizeof(packet))
+  {
+    Serial.print(*((char*)data + count));
+    XBee.write(*((char*)data + count));    
+    count++;
+  }
 }
